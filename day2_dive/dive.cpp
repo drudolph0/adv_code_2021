@@ -42,7 +42,7 @@ auto file2motions() {
     return motions;
 }
 
-auto moveSubmarine(const Motions& motions) {
+auto moveSubmarine(const Motions& motions, bool part2 = false) {
     int horizontal = 0;
     int depth = 0;
     int aim = 0;
@@ -52,13 +52,15 @@ auto moveSubmarine(const Motions& motions) {
         switch(motion) {
             case Motion::FOWARD:
                 horizontal += m.second;
-                depth += aim*m.second;
+                if(part2) depth += aim*m.second;
                 break;
             case Motion::DOWN:
-                aim += m.second;
+                if(part2) aim += m.second;
+                else depth += m.second;
                 break;
             case Motion::UP:
-                aim -= m.second;
+                if(part2) aim -= m.second;
+                else depth -= m.second;
                 break;
         }
     }
@@ -67,7 +69,7 @@ auto moveSubmarine(const Motions& motions) {
 }
 int main() {
     auto motions = file2motions();
-    auto result = moveSubmarine(motions);
+    auto result = moveSubmarine(motions, true);
 
     cout << "horizontal: " << result.first << " depth:" << result.second << endl;
     cout << "Multiplied: " << result.first * result.second << endl;
